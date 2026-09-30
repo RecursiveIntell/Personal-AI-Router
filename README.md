@@ -3,6 +3,8 @@ SPDX-FileCopyrightText: Copyright (c) 2026 NVIDIA CORPORATION & AFFILIATES. All 
 SPDX-License-Identifier: Apache-2.0
 -->
 
+> This is the RecursiveIntell fork of [NVIDIA/Personal-AI-Router](https://github.com/NVIDIA/Personal-AI-Router). Upstream attribution, documentation, and release links below refer to that project; this checkout may differ from its current main branch.
+
 # NVIDIA Personal AI Router (PAIR)
 
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
