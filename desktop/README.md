@@ -65,14 +65,19 @@ npm run test:clean                     # clears the Vitest cache and stray tmpdi
 ```
 
 Tests live in `tests/`, not beside the source. `tests/fixtures/isolation.ts` is
-loaded for every test and enforces two things worth knowing: outbound HTTP to
-anything other than loopback is blocked, and `PAIR_USER_DATA` points at a
-per-worker temp directory, so a test can never write to your real application
-data. A test that needs HTTP should stand up a local fake.
+loaded for every test and blocks non-loopback Axios requests; it does not
+intercept other network clients. It sets `PAIR_USER_DATA` to a per-worker temp
+directory only when the variable is unset, and tests may override it.
+`assertIsolated()` is opt-in; tests that touch the file-config-store should call
+it. Avoiding writes to real app data also depends on tests injecting a
+`PathProvider` via `initPlatform` that honors `PAIR_USER_DATA`. Axios tests
+needing HTTP should use a local fake.
 
-Coverage is scoped to `src/shared/**`. The Electron main process and the renderer
-are excluded, so a green coverage number says less than it appears to — most of
-`src/electron/` and the renderer stores have no unit tests at all.
+Coverage includes `src/shared/**`, `src/ui/utils/**`, `src/ui/constants/**`, and
+the selected Electron files `src/electron/csp.ts`, `src/electron/globals.ts`,
+`src/electron/inference-demo-schedule.ts`, and `src/electron/redact-log.ts`.
+Most of the Electron main process and renderer modules remain outside the
+configured coverage set.
 
 `vitest.config.ts` also declares an `e2e` project, but it selects no files. There
 is no end-to-end suite yet; nothing exercises the app together with its service
